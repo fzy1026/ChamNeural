@@ -4,15 +4,26 @@ using namespace std;
 
 
 
+Matrix::Matrix()
+{
+    height = 0;
+    width = 0;
+}
+
 Matrix::Matrix(int H, int W)
 {
-    hight = H;
+    height = H;
     width = W;
+    data.resize(H);
+    for (int i = 0; i < H; i++)
+    {
+        data[i].resize(W);
+    }
 }
 
 void Matrix::SetZero()
 {
-    for (int i = 0; i < hight; i++)
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -24,7 +35,7 @@ void Matrix::SetZero()
 void Matrix::SetIdentity()
 {
     SetZero();
-    for (int i = 0; i < min(hight, width); i++)
+    for (int i = 0; i < min(height, width); i++)
     {
         data[i][i] = 1;
     }
@@ -32,9 +43,9 @@ void Matrix::SetIdentity()
 
 bool Matrix::Set(int x, int y, double val)
 {
-    if (InRange(x, 0, hight - 1) && InRange(y, 0, width - 1))
+    if (InRange(x, 1, height) && InRange(y, 1, width))
     {
-        data[x][y] = val;
+        data[x-1][y-1] = val;
         return 1;
     }
     return 0;
@@ -42,21 +53,21 @@ bool Matrix::Set(int x, int y, double val)
 
 double Matrix::Get(int x, int y)
 {
-    if (InRange(x, 0, hight - 1) && InRange(y, 0, width - 1))
+    if (InRange(x, 1, height) && InRange(y, 1, width))
     {
-        return data[x][y];
+        return data[x-1][y-1];
     }
     return 0;
 }
 
 Matrix Matrix::operator+(const Matrix &a) const
 {
-    if (hight != a.hight || width != a.width)
+    if (height != a.height || width != a.width)
     {
         throw "Error: Matric size mismatch in addition.";
     }
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -68,12 +79,12 @@ Matrix Matrix::operator+(const Matrix &a) const
 
 Matrix Matrix::operator*(const Matrix &a) const
 {
-    if (width != a.hight)
+    if (width != a.height)
     {
         throw "Error: Matric size mismatch in multiplication.";
     }
-    Matrix ans(hight, a.width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, a.width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < a.width; j++)
         {
@@ -88,8 +99,8 @@ Matrix Matrix::operator*(const Matrix &a) const
 
 Matrix Matrix::operator*(const double &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -101,8 +112,8 @@ Matrix Matrix::operator*(const double &a) const
 
 Matrix Matrix::operator*(const float &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -114,8 +125,8 @@ Matrix Matrix::operator*(const float &a) const
 
 Matrix Matrix::operator*(const int &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -127,8 +138,8 @@ Matrix Matrix::operator*(const int &a) const
 
 Matrix Matrix::operator*(const long &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -140,8 +151,8 @@ Matrix Matrix::operator*(const long &a) const
 
 Matrix Matrix::operator*(const long long &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -153,8 +164,8 @@ Matrix Matrix::operator*(const long long &a) const
 
 Matrix Matrix::operator/(const double &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -166,8 +177,8 @@ Matrix Matrix::operator/(const double &a) const
 
 Matrix Matrix::operator/(const float &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -179,8 +190,8 @@ Matrix Matrix::operator/(const float &a) const
 
 Matrix Matrix::operator/(const int &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -192,8 +203,8 @@ Matrix Matrix::operator/(const int &a) const
 
 Matrix Matrix::operator/(const long &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -205,8 +216,8 @@ Matrix Matrix::operator/(const long &a) const
 
 Matrix Matrix::operator/(const long long &a) const
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -218,12 +229,12 @@ Matrix Matrix::operator/(const long long &a) const
 
 Matrix Matrix::SubMatrix(int x, int y)
 {
-    if (hight <= 1 || width <= 1 || !InRange(x, 0, hight - 1) || !InRange(y, 0, width - 1))
+    if (height <= 1 || width <= 1 || !InRange(x, 0, height - 1) || !InRange(y, 0, width - 1))
     {
         throw "Error: Cannot get submatric.";
     }
-    Matrix ans(hight - 1, width - 1);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height - 1, width - 1);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -268,8 +279,8 @@ double Matrix::Cofactor(int x, int y)
 
 Matrix Matrix::Transform()
 {
-    Matrix ans(width, hight);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(width, height);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -281,17 +292,17 @@ Matrix Matrix::Transform()
 
 double Matrix::Det()
 {
-    if (hight != width)
+    if (height != width)
     {
         throw "Error: Only square matric can calculate determinant.";
         return 0;
     }
 
-    if (hight == 1)
+    if (height == 1)
     {
         return data[0][0];
     }
-    else if (hight == 2)
+    else if (height == 2)
     {
         return data[0][0] * data[1][1] - data[0][1] * data[1][0];
     }
@@ -308,8 +319,8 @@ double Matrix::Det()
 
 Matrix Matrix::Adj()
 {
-    Matrix ans(hight, width);
-    for (int i = 0; i < hight; i++)
+    Matrix ans(height, width);
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
@@ -330,14 +341,70 @@ Matrix Matrix::Inverse()
     return adj / determinant;
 }
 
+Matrix Matrix::Link(const Matrix &a)
+{
+    if (height != a.height)
+    {
+        throw "Error: Matric size mismatch in linking.";
+    }
+    Matrix ans(height, width + a.width);
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            ans.data[i][j] = data[i][j];
+        }
+        for (int j = 0; j < a.width; j++)
+        {
+            ans.data[i][j + width] = a.data[i][j];
+        }
+    }
+    return ans;
+}
+void Matrix::SetSize(int H,int W)
+{
+    height = H;
+    width = W;
+    data.clear();
+    data.resize(height, vector<double>(width, 0));
+}
+
+double Matrix::Height()
+{
+    return height;
+}
+
+double Matrix::Width()
+{
+    return width;
+}
+
+
+Matrix Vector(vector<double> v)
+{
+    Matrix ans(v.size(), 1);
+    for (int i = 0; i < v.size(); i++)
+    {
+        ans.data[i][0] = v[i];
+    }
+    return ans;
+}
+
+Matrix Number(double x)
+{
+    Matrix ans(1, 1);
+    ans.data[0][0] = x;
+    return ans;
+}
+
 bool MatrixAddable(const Matrix &a, const Matrix &b)
 {
-    return (a.hight == b.hight) && (a.width == b.width);
+    return (a.height == b.height) && (a.width == b.width);
 }
 
 bool MatrixMultipliable(const Matrix &a, const Matrix &b)
 {
-    return a.width == b.hight;
+    return a.width == b.height;
 }
 
 int RAND()
