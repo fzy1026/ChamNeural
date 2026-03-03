@@ -1,6 +1,6 @@
 build
 .vscode
-Geogebra.ggb
-nndl-boolk.pdf
+*ggb
+nndl-book.pdf
 CMakeFiles
 CMakeCache.txt
